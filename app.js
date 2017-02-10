@@ -18,7 +18,6 @@ app.get('/', function(request, response) {
 });
 
 app.get('/approved', function(request, response) {
-  console.log(response.req.query);
   var status = response.req.query.UMstatus;
   var query = response.req.query;
   var result = query.UMresult;

@@ -1,0 +1,42 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="utf-8")
+    meta(http-equiv="X-UA-Compatible", content="IE=edge")
+    meta(name="viewport", content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no") 
+    title Approved
+    link(rel='stylesheet', href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css", integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u", crossorigin="anonymous")
+  body
+    p(class="alert alert-success" role="alert") Purchase Confirmation
+    table(class="table table-bordered")
+      tr 
+        td Authorization Code 
+        td #{query.UMauthCode}
+      tr 
+        td Reference # 
+        td #{query.UMrefNum}
+      tr 
+        td AVS Response 
+        td #{query.UMavsResult}
+      tr 
+        td AVS Response Code 
+        td #{query.UMavsResultCode}
+      tr 
+        td CVV2 Response 
+        td #{query.UMcvv2Result}
+      tr 
+        td CVV2 Code 
+        td #{query.UMcvv2ResultCode}
+      tr 
+        td Card Level 
+        td #{query.UMcardLevelResult}
+      tr 
+        td Amount 
+        td $#{query.UMauthAmount}
+    br
+    a(class="btn btn-primary" href="/" role="button") New Transaction
+  script(src="https://code.jquery.com/jquery-3.1.1.min.js"
+    integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+    crossorigin="anonymous")
+    script(src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js", integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa", crossorigin="anonymous")
+    block content

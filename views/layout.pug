@@ -1,0 +1,98 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="utf-8")
+    meta(http-equiv="X-UA-Compatible", content="IE=edge")
+    meta(name="viewport", content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no") 
+    title eSeller Checkout
+    link(rel='stylesheet', href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css", integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u", crossorigin="anonymous")
+    link(rel='stylesheet', href='/static/css/style.css')
+  body
+    form(name="ccform", action="https://sandbox.usaepay.com/gate", method="POST", onSubmit="return validateForm()")
+      input(type="hidden", name="UMkey" value="_MiuZm3gbcgaz0h3tuktFZ36W1YQD9s9")
+      input(type="hidden", name="UMcardauth" value="true")
+      input(type="hidden", name="UMredirApproved", value="http://localhost:5000/approved")
+      input(type="hidden", name="UMredirDeclined", value="http://localhost:5000/approved")
+      div(class="form-group")
+          h2 Order Information
+          div(class="well well-sm")
+            label(for="orderDate") Order Date
+            input(type="date", class="form-control", id="orderDate", name="UMorderdate")
+            label(for="sku") Product ID
+            input(type="text", class="form-control", id="sku", name="UMline1sku", maxlength="32")
+            div(class="row")
+              div(class="col col-sm-4")
+                label(for="amount") Amount
+                input(type="number", class="form-control", id="amount", name="UMamount", required placeholder="$0.00")
+              div(class="col col-sm-4")
+                label(for="discnt") Discount Code
+                input(type="text", class="form-control", id="discnt", name="DiscountCode", maxlength="15", size="15")
+                button(class="btn btn-primary", id="applyDiscount", onClick="calculateDiscount()") Apply
+                div(id="discountmessage") &nbsp;              
+      div(class="form-group")
+        input(type="radio", id="ccSale", name="UMcommand", value="cc:sale")
+        label(for="ccSale", id="payCC") Pay By Credit Card
+        div(class="well well-sm")
+          label(for="ccName") Name on Card
+          input(type="text", class="form-control", id="ccName", name="UMname")
+          label(for="ccNumber") Credit Card Number
+          input(type="text", class="form-control", id="ccNumber", name="UMcard", maxlength=24, size=24)
+          div(class="row")
+            div(class="col col-sm-3")
+              label(for="ccExp") Expiration
+              input(type="number", class="form-control", id="ccExp", name="UMexpir", placeholder="MMYY", maxlength=4, size=4)
+            div(class="col col-sm-3")
+              label(for="cvv2") CVV2
+              input(type="number", class="form-control", id="cvv2", name="UMcvv2", maxlength=4, size=4)
+          input(type="checkbox", id="emailrec", name="UMcustreceipt", value="yes")
+          label(for="emailrec", id="emailreceipt") email customer receipt
+      div(class="form-group")
+          input(type="radio",id="checkSale", name="UMcommand", value="check:sale") 
+          label(for="checkSale", id="payCheck") Pay By Check
+          div(class="well well-sm")
+            label(for="routingNum") Routing Number
+            input(type="number", class="form-control", id="routingNum", name="UMrouting")
+            label(for="acctNum") Account Number
+            input(type="number", class="form-control", id="acctNum", name="UMaccount", maxlength="25")
+            label(for="checkNum") Check Number
+            input(type="number", class="form-control", id="checkNum", name="UMchecknum")
+            div(class="row")
+              div(class="col col-sm-4")
+                label(for="dlNum") Driver License Number
+                input(type="text", class="form-control", id="dlNum", name="UMdlnum")
+              div(class="col col-sm-4")
+                label(for="dlState") Issuing State
+                input(type="text", class="form-control", id="dlState", name="UMdlstate")
+      div(class="form-group")
+          h2 Billing Information
+          div(class="well well-sm")
+            label(for="coName") Company Name
+            input(type="text", class="form-control", id="coName", name="UMbillcompany")
+            label(for="firstName") First Name
+            input(type="text", class="form-control", id="firstName", name="UMbillfname")
+            label(for="lastName") Last Name
+            input(type="text", class="form-control", id="lastName", name="UMbilllname")
+            label(for="custEmail") Email
+            input(type="email", class="form-control", id="custEmail", name="UMcustemail")
+            label(for="address") Address
+            input(type="text", class="form-control", id="address", name="UMstreet")
+            label(for="city") City
+            input(type="text", class="form-control", id="city", name="UMbillcity")
+            div(class="row")
+              div(class="col col-sm-4")
+                label(for="state") State
+                input(type="text", class="form-control", id="state", name="UMbillstate")
+              div(class="col col-sm-4")
+                label(for="zip") Zip
+                input(type="text", class="form-control", id="zip", name="UMzip")
+            label(for="country") Country
+            input(type="text", class="form-control", id="country", name="UMbillcountry")
+      button(type="submit", id="formSubmit", class="btn btn-primary") Submit Payment
+      img(src="https://wiki.usaepay.com/_media/merchants/images/usaepaysecurebuttonred3.gif", alt="Click to pay")
+    script(src="/static/discount.js")
+    script(src="/static/connect.js")
+    script(src="https://code.jquery.com/jquery-3.1.1.min.js"
+    integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+    crossorigin="anonymous")
+    script(src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js", integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa", crossorigin="anonymous")
+    block content 

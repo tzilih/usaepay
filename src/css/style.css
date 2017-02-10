@@ -1,0 +1,44 @@
+body {
+  padding-top: 25px;
+  margin: 4px;
+  padding-bottom: 20px;
+  padding-left: 50px;
+}
+
+#discountmessage {
+  color: red;
+  margin-left: 80px;
+}
+
+.form-group {
+  width: 900px;
+}
+
+label, .form-control {
+  width: 650px;
+  margin-left: 80px;
+}
+#applyDiscount, #emailrec {
+  margin-left: 80px;
+}
+#discnt, #amount, #dlNum, #dlState, #state, #zip {
+  width: 250px;
+  margin-bottom: 10px;
+}
+
+#ccSale, #checkSale {
+  margin-right: 5px;
+}
+
+#ccExp, #cvv2 {
+  width: 90px;
+}
+
+#payCC, #payCheck, #emailreceipt {
+  margin-left: 0px;
+  padding-left: 5px;
+}
+
+#formSubmit {
+  margin-right: 10px;
+}

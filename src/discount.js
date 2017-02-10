@@ -1,0 +1,116 @@
+function updateTotal()
+{
+if (document.ccform.UMamount.value > 0)
+  {
+  calculateTotal();
+  }
+}
+var discounttotal = 0; 
+function calculateDiscount()
+{
+var discountInput = document.ccform.DiscountCode.value;
+var discountindividual = 5.00;
+
+var discountmessage = "";
+var amount = document.ccform.UMamount.value;
+ 
+if (discountInput=="letItSnow10")
+  {
+    if (amount >= 50.00) {
+      discounttotal=10.00;
+      discountmessage = "discount applied";
+    }
+    else {
+      discountmessage = "minimum amount has not been met for this discount code";
+    } 
+  }
+else if (discountInput=="letItSnow25") {
+  if (amount >= 100.00) {
+    discounttotal=25.00;
+    discountmessage = "discount applied";
+  }
+  else {
+    discountmessage = "minimum amount has not been met for this discount code";
+  }
+}
+else if (discountInput != "")
+  {
+  discounttotal=0;
+  discountmessage = "Not a valid discount code";
+  }
+else
+  {
+  discounttotal=0;
+  discountmessage = "";
+  }
+ 
+//document.epayform.UMdiscount.value  = roundCurrency(discounttotal); 
+document.getElementById('discountmessage').innerHTML = discountmessage;
+ 
+calculateTotal();
+}
+
+function calculateTotal() 
+{
+/* USAePay API uses UMsubtotal, UMdiscount, UMshipping, UMtax as total amounts for the order.
+  UMamount = UMsubtotal + UMshipping - UMdiscount + UMtax
+  USAePay does not automatically calculate UMamount for us.
+  Instead of using a simmpler calculation
+  Qty * (Base Amount - Discount) * (1 + Tax) + Shipping = Amount,
+  we'll use USAePay variables to better tie in with it's API.
+*/
+ 
+/*calculate subtotal
+var subtotal = document.epayform.UMsubtotal.value;
+subtotal = roundCurrency(subtotal);
+ 
+var discounttotal = document.epayform.UMdiscount.value;
+if (discounttotal != 0)
+  {
+  document.getElementById('discount').innerHTML = "$" + currencyFormatted(discounttotal);
+  }
+*/
+var total = document.ccform.UMamount.value; 
+total = total - discounttotal;
+document.ccform.UMamount.value = total ;
+//document.getElementById('totalamount').innerHTML = "$" + currencyFormatted(total) ;
+//document.getElementById('amount').innerHTML = total;
+}
+ 
+//round Currency
+function roundCurrency(amount)
+{
+var i = Math.abs(amount);
+i = Math.round  (i  * 100)/100;
+return i;
+}
+ 
+//format Currency
+function currencyFormatted(amount)
+{
+var i = parseFloat(amount);
+if(isNaN(i))
+  {
+  i = 0.00;
+  }
+ 
+var minus = '';
+if(i < 0)
+  {
+  minus = '-';
+  }
+i = Math.abs(i);
+i = parseInt((i + .005) * 100);
+i = i / 100;
+s = new String(i);
+if(s.indexOf('.') < 0)
+  {
+  s += '.00';
+  }
+if(s.indexOf('.') == (s.length - 2))
+  {
+  s += '0';
+  }
+s = minus + s;
+return s;
+}

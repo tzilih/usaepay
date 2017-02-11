@@ -26,6 +26,7 @@ if (CCN.length == 0 &&  bankRouting.length == 0) {
 document.ccform.UMcard.focus == true;
 return false;
 }
+/*
 if (bankRouting.length > 0) {
   if (CCN.length > 0) {
     alert ("Error: You can only use one payment method per transaction. \nPlease enter either your credit card information OR electronic check information.");
@@ -34,7 +35,7 @@ if (bankRouting.length > 0) {
   else {
     document.ccform.UMcommand.value = "check:sale"
   }
-} 
+} */
 else if (CCN.length > 0 && expireDate.length < 4)
 {
 alert ("Error: Incorrect expiration date.\nThere should be 4 digits in the expiration date in the form MMYY.\nIt appears that you have less than 4.");

@@ -22,6 +22,19 @@ var street = document.ccform.UMstreet.value;
 var zip = trimBetweenSpaces(trimBegEndSpaces(stripOffNonDigit(document.ccform.UMzip.value)));
 var paymentMethod = document.ccform.UMcommand.value;
 
+if (amount.length == 0 || amount <= 0)
+{
+alert ("Error: missing field amount.\n Please fill out the amount field.");
+document.ccform.UMamount.focus();
+return false;
+}
+if (sku.length == 0)
+{
+alert ("Error: Missing Product ID.\n Please fill out the Product ID field.");
+document.ccform.UMline1sku.focus();
+return false;
+}
+
 //Validate fields under credit card information
 if (paymentMethod == 'cc:sale') {
   //validate cardholder name
@@ -91,18 +104,6 @@ if (paymentMethod == 'check:sale') {
   }
 }
 
-if (amount.length == 0 || amount <= 0)
-{
-alert ("Error: missing field amount.\n Please fill out the amount field.");
-document.ccform.UMamount.focus();
-return false;
-}
-if (sku.length == 0)
-{
-alert ("Error: Missing Product ID.\n Please fill out the Product ID field.");
-document.ccform.UMline1sku.focus();
-return false;
-}
 if (street.length == 0)
 {
 alert ("Error: Please enter the billing address.");

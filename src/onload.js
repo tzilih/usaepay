@@ -21,40 +21,37 @@ var discounttotal = 0;
 function calculateDiscount()
 {
 var discountInput = document.ccform.DiscountCode.value;
-var discountindividual = 5.00;
-
 var discountmessage = "";
 var amount = document.ccform.UMamount.value;
  
-if (discountInput=="letItSnow10")
-  {
+if (discountInput=="letItSnow10") {
+  if (discounted == false) {
     if (amount >= 50.00) {
-      if (discounted == false) {
-        discounttotal=10.00;
-        discountmessage = "discount applied";
-        discounted = true;
-      }
-      else {
-        discountmessage = "You already received a discount.";
-      }
+      discounttotal=10.00;
+      discountmessage = "discount applied";
+      discounted = true;
     }
     else {
       discountmessage = "minimum amount has not been met for this discount code";
-    } 
+    }
   }
+  else {
+    discountmessage = "You already received a discount.";
+  } 
+}
 else if (discountInput=="letItSnow25") {
-  if (amount >= 100.00) {
-    if (discounted == false) {
+  if (discounted == false) {
+    if (amount >= 100.00) {
       discounttotal=25.00;
       discountmessage = "discount applied";
       discounted = true;
     }
     else {
-      discountmessage = "You already received a discount.";
+      discountmessage = "minimum amount has not been met for this discount code";
     }
   }
   else {
-    discountmessage = "minimum amount has not been met for this discount code";
+    discountmessage = "You already received a discount.";
   }
 }
 else if (discountInput != "")

@@ -20,78 +20,99 @@ var billfname = document.ccform.UMbillfname.value;
 var billlname = document.ccform.UMbilllname.value;
 var street = document.ccform.UMstreet.value;
 var zip = trimBetweenSpaces(trimBegEndSpaces(stripOffNonDigit(document.ccform.UMzip.value)));
- 
-if (CCN.length == 0 &&  bankRouting.length == 0) {
-  alert ("Error: missing values.\nYou have not included any Credit Card or Check information.\nPlease fill out either one to continue.");
-document.ccform.UMcard.focus == true;
-return false;
-}
-/*
-if (bankRouting.length > 0) {
-  if (CCN.length > 0) {
-    alert ("Error: You can only use one payment method per transaction. \nPlease enter either your credit card information OR electronic check information.");
-    return false;
-  }
-  else {
-    document.ccform.UMcommand.value = "check:sale"
-  }
-} */
-else if (CCN.length > 0 && expireDate.length < 4)
-{
-alert ("Error: Incorrect expiration date.\nThere should be 4 digits in the expiration date in the form MMYY.\nIt appears that you have less than 4.");
-document.ccform.UMexpir.focus == true;
-return false;
-}
-document.ccform.UMexpir.value = expireDate;
+var paymentMethod = document.ccform.UMcommand.value;
 
-if (bankRouting.length > 0) {
-  if (bankAccount.length == 0 ||
-      dlNum.length == 0 ||
-      dlState.length == 0
-      ) {
-    alert ("You must complete all bank account information, including account number, driver's license number, and issuing state");
-    return false;
-  }
-  if (bankAccount.length > 0 && bankAccount.length < 4) {
-    alert ("Bank account number should have a minimum of 4 digits")
-  }
-  if (billfname.length == 0 ||
-      billlname.length == 0) {
-    alert ("Please enter first and last name under billing information.")
-  }
-}
-if (amount.length == 0 || amount <= 0)
-{
-alert ("Error: missing field amount.\n Please fill out the amount field.");
-document.ccform.UMamount.focus == true;
-return false;
-}
- 
-if (sku.length == 0)
-{
-alert ("Error: missing field Product ID.\n Please fill out the Product ID field.");
-document.ccform.UMline1sku.focus == true;
-return false;
-}
-if (CCN > 0) { 
+//Validate fields under credit card information
+if (paymentMethod == 'cc:sale') {
+  //validate cardholder name
   if (name.length == 0 || !isAlphaSymbols(name, ".,' "))
   {
   alert ("Error: Please enter the name as it appears on the card using only alphabetic characters.");
-  document.ccform.UMname.focus == true;
+  document.ccform.UMname.focus();
   return false;
   }
+  //validate CC # length is at least 12 numbers
+  else if (CCN.length == 0) {
+    alert("Missing credit card number.")
+    document.ccform.UMcard.focus();
+    return false;
+  }
+  else if (CCN.length < 12) {
+    alert ("Error: Make sure the credit card you entered has at least 12 numbers.");
+    document.ccform.UMcard.focus();
+    return false;
+  }
+  else if (expireDate.length < 4) {
+    alert ("Error: Enter a 4 digit expiration date in the MMYY format.");
+    document.ccform.UMexpir.focus();
+    return false;
+  }
+  document.ccform.UMexpir.value = expireDate;
+}
+
+//Validate ACH payment information
+if (paymentMethod == 'check:sale') {
+  //validate routing number has been entered
+  if (bankRouting.length == 0) {
+    alert("Please enter your bank routing number.");
+    document.ccform.UMrouting.focus();
+    return false;
+  }
+  //validate account number was entered; min 4 digits
+  else if (bankAccount.length == 0) {
+    alert ("Missing bank account number.");
+    document.ccform.UMaccount.focus();
+    return false;
+  }
+  else if (bankAccount.length < 4) {
+    alert ("Bank account number should have a minimum of 4 digits");
+    document.ccform.UMaccount.focus();
+    return false;
+  }
+  else if (dlNum.length == 0) {
+    alert("please enter your driver's license number.");
+    document.ccform.UMdlnum.focus();
+    return false;
+  }
+  else if (dlState.length == 0) {
+    alert("Please enter the driver's license issuing state.")
+    document.ccform.UMdlstate.focus();
+    return false;
+  }
+  else if (billfname.length == 0 || !isAlphaSymbols(billfname, ".,' ")) {
+  alert("Please enter first name under billing information.");
+  document.ccform.UMbillfname.focus();
+  return false;
+  }
+  else if (billlname.length == 0 || !isAlphaSymbols(billlname, ".,' ")) {
+  alert("Please enter last name under billing information.");
+  document.ccform.UMbilllname.focus();
+  return false;
+  }
+}
+
+if (amount.length == 0 || amount <= 0)
+{
+alert ("Error: missing field amount.\n Please fill out the amount field.");
+document.ccform.UMamount.focus();
+return false;
+}
+if (sku.length == 0)
+{
+alert ("Error: Missing Product ID.\n Please fill out the Product ID field.");
+document.ccform.UMline1sku.focus();
+return false;
 }
 if (street.length == 0)
 {
 alert ("Error: Please enter the billing address.");
-document.ccform.UMstreet.focus == true;
+document.ccform.UMstreet.focus();
 return false;
-}
- 
-if (zip.length == 0 || zip.length < 5)
+} 
+if (zip.length == 0 || zip.length != 5)
 {
 alert ("Error: missing or invalid billing zipcode.\n Please enter a 5 digit zipcode.");
-document.ccform.UMzip.focus == true;
+document.ccform.UMzip.focus();
 return false;
 }
  
